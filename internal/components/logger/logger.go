@@ -26,7 +26,7 @@ func NewLogger(config *config.Config) Logger {
 
 		log.SetLevel(logrus.Level(config.LogLevel))
 		log.SetFormatter(&logrus.JSONFormatter{})
-		loggerInstance.Logger = log
+		loggerInstance = &logrusWriter{Logger: log}
 	})
 
 	return loggerInstance

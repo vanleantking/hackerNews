@@ -1,7 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"time"
+
+	"hackerNewsApi/internal/components"
+
+	route "hackerNewsApi/internal/delivery/http/route"
+)
 
 func main() {
-	fmt.Println("enter here")
+
+	app := components.AppConfig()
+
+	env := app.Config
+
+	timeout := time.Duration(env.ContextTimeout) * time.Second
+
+	route.Setup(env, timeout, app.Server)
+
+	app.Server.Gin.Run(":8080")
 }

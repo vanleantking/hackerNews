@@ -12,7 +12,5 @@ type Server struct {
 
 func NewGin(config *config.Config) *Server {
 	var gin = gin.Default()
-	gin.Run(config.APIPort)
-
 	return &Server{Gin: gin}
 }

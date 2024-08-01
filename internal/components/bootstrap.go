@@ -20,11 +20,11 @@ type App struct {
 func AppConfig() *App {
 	cfg := config.NewEnv()
 	lg := logger.NewLogger(cfg)
-	db := gorm.NewPostgresDatabase(cfg, lg)
+	// db := gorm.NewPostgresDatabase(cfg, lg)
 	validate := validator.NewValidator(cfg)
 	srv := server.NewGin(cfg)
 	return &App{
-		DB:        db,
+		// DB:        db,
 		Logger:    lg,
 		Validator: validate,
 		Server:    srv,
