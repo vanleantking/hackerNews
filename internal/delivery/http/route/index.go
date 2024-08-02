@@ -10,8 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Setup(env *config.Config, timeout time.Duration, srv *server.Server) {
-	publicRouter := srv.Gin.Group("")
+func Setup(env *config.Config, timeout time.Duration, srv server.Server) {
+	publicRouter := srv.GetEngine().Group("")
 	// All Public APIs
 	NewIndexRouter(env, timeout, publicRouter)
 }

@@ -11,6 +11,12 @@
 10. https://medium.com/@ebubekiryigit/hexagonal-architecture-a-golang-perspective-7eb3cb6117e7
 11. https://eltonminetto.dev/en/post/2020-07-06-clean-architecture-2years-later/
 12. https://threedots.tech/post/ddd-cqrs-clean-architecture-combined/
+13. https://medium.com/@shershnev/layered-architecture-implementation-in-golang-6318a72c1e10
+14. https://medium.com/@kyodo-tech/layered-go-applications-simple-testable-design-1648c7e44b18
+15. https://github.com/AleksK1NG/Go-Clean-Architecture-REST-API/tree/master
+16. https://dev.to/bagashiz/building-restful-api-with-hexagonal-architecture-in-go-1mij
+17. https://dev.to/dyarleniber/hexagonal-architecture-and-clean-architecture-with-examples-48oi
+18. https://medium.com/@rayato159/how-to-implement-clean-architecture-in-golang-en-f50d66378ebf
 
 
 **PROJECT ARCHITECTURE**

@@ -50,12 +50,10 @@ func NewPostgresDatabase(conf *config.Config, log appLog.Logger) Database {
 			}),
 		})
 		if err != nil {
-			panic("failed to connect database")
+			panic(fmt.Sprintf("failed to connect database, %s, %s", err.Error(),  conf.DBPort))
 		}
-
 		dbInstance = &postgresDatabase{Db: db}
 	})
-
 	return dbInstance
 }
 

@@ -1,16 +1,38 @@
 package server
 
 import (
+	"fmt"
 	"hackerNewsApi/internal/components/config"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Server struct {
-	Gin *gin.Engine
+type serverInstance struct {
+	Gin    *gin.Engine
+	Config *config.Config
 }
 
-func NewGin(config *config.Config) *Server {
+type Server interface {
+	Run()
+	GetConfig() *config.Config
+	GetEngine() *gin.Engine
+}
+
+func NewServer(config *config.Config) Server {
 	var gin = gin.Default()
-	return &Server{Gin: gin}
+	return &serverInstance{Gin: gin, Config: config}
+}
+
+func (s *serverInstance) Run() {
+	address := fmt.Sprintf("%s:%s", s.Config.ServerHost, s.Config.APIPort)
+	fmt.Println("address, ", address)
+	s.Gin.Run(address)
+}
+
+func (s *serverInstance) GetEngine() *gin.Engine {
+	return s.Gin
+}
+
+func (s *serverInstance) GetConfig() *config.Config {
+	return s.Config
 }

@@ -11,17 +11,18 @@ type Config struct {
 	AppEnv                 string `mapstructure:"APP_ENV"`
 	ServerAddress          string `mapstructure:"SERVER_ADDRESS"`
 	ContextTimeout         int    `mapstructure:"CONTEXT_TIMEOUT"`
-	DBHost                 string `mapstructure:"DB_HOST"`
-	DBPort                 string `mapstructure:"DB_PORT"`
-	DBUser                 string `mapstructure:"DB_USER"`
-	DBPass                 string `mapstructure:"DB_PASS"`
-	DBName                 string `mapstructure:"DB_NAME"`
+	DBHost                 string `mapstructure:"POSTGRES_HOST"`
+	DBPort                 string `mapstructure:"POSTGRES_PORT" default:"100"`
+	DBUser                 string `mapstructure:"POSTGRES_USER"`
+	DBPass                 string `mapstructure:"POSTGRES_PASS"`
+	DBName                 string `mapstructure:"POSTGRES_DATABASE"`
 	DBPoolIdle             int    `mapstructure:"POOL_IDLE" default:"10"`
 	DBMaxConnection        int    `mapstructure:"MAX_CONNECTION" default:"100"`
 	ConnLifeTime           int    `mapstructure:"CONN_LIFETIME" default:"300"`
 	SSLMode                string `mapstructure:"SSL_MODE" default:"disable"`
 	TimeZone               string `mapstructure:"TIMEZONE" default:"Asia/Ho_Chi_Minh"`
 	LogLevel               int    `mapstructure:"LOG_LEVEL" default:"6"`
+	ServerHost             string `mapstructure:"SERVER_HOST" default:"localhost"`
 	APIPort                string `mapstructure:"API_PORT" default:"8080"`
 	AccessTokenExpiryHour  int    `mapstructure:"ACCESS_TOKEN_EXPIRY_HOUR"`
 	RefreshTokenExpiryHour int    `mapstructure:"REFRESH_TOKEN_EXPIRY_HOUR"`
@@ -34,7 +35,7 @@ var (
 	configInstance *Config
 )
 
-func NewEnv() *Config {
+func NewConfig() *Config {
 	once.Do(func() {
 		viper.SetConfigFile(".env")
 

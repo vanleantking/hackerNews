@@ -18,5 +18,5 @@ func main() {
 
 	route.Setup(env, timeout, app.Server)
 
-	app.Server.Gin.Run(":8080")
+	app.Server.Run()
 }
