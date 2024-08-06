@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	AppEnv                 string `mapstructure:"APP_ENV"`
+	APIVersion             string `mapstructure:"API_VERSION"`
 	ServerAddress          string `mapstructure:"SERVER_ADDRESS"`
 	ContextTimeout         int    `mapstructure:"CONTEXT_TIMEOUT"`
 	DBHost                 string `mapstructure:"POSTGRES_HOST"`
@@ -28,6 +29,9 @@ type Config struct {
 	RefreshTokenExpiryHour int    `mapstructure:"REFRESH_TOKEN_EXPIRY_HOUR"`
 	AccessTokenSecret      string `mapstructure:"ACCESS_TOKEN_SECRET"`
 	RefreshTokenSecret     string `mapstructure:"REFRESH_TOKEN_SECRET"`
+	HNBaseURL              string `mapstructure:"HN_BASEURL"`
+	HNAPIVersion           string `mapstructure:"HN_VERSION"`
+	HNAPIFormat            string `mapstructure:"HN_FORMAT_API"`
 }
 
 var (
