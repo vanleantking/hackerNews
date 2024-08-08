@@ -32,6 +32,7 @@ type Config struct {
 	HNBaseURL              string `mapstructure:"HN_BASEURL"`
 	HNAPIVersion           string `mapstructure:"HN_VERSION"`
 	HNAPIFormat            string `mapstructure:"HN_FORMAT_API"`
+	PathMigrate            string `mapstructure:"PATH_MIGRATE"`
 }
 
 var (
