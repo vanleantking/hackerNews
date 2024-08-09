@@ -17,6 +17,7 @@ type Config struct {
 	DBUser                 string `mapstructure:"POSTGRES_USER"`
 	DBPass                 string `mapstructure:"POSTGRES_PASS"`
 	DBName                 string `mapstructure:"POSTGRES_DATABASE"`
+	DBDSN                  string `mapstructure:"DB_DSN"`
 	DBPoolIdle             int    `mapstructure:"POOL_IDLE" default:"10"`
 	DBMaxConnection        int    `mapstructure:"MAX_CONNECTION" default:"100"`
 	ConnLifeTime           int    `mapstructure:"CONN_LIFETIME" default:"300"`
@@ -42,7 +43,7 @@ var (
 
 func NewConfig() *Config {
 	once.Do(func() {
-		viper.SetConfigFile(".env")
+		viper.SetConfigFile("./.env")
 
 		err := viper.ReadInConfig()
 		if err != nil {
