@@ -1,35 +1,37 @@
 version: '3'
 
 services:
-    # golang
     hn-be-api:
         build:
             context: '.'
             dockerfile: 'docker/api/Dockerfile'
         env_file: .env
+        ports:
+            - "$API_PORT:$API_PORT"
         environment:
             DB_DSN: "postgresql://${POSTGRES_USER}:${POSTGRES_PASS}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?sslmode=${POSTGRES_SSLMODE}"
             DB_DRIVER: "postgres"
         depends_on:
-            - app
-            - db
+            db:
+                condition: service_healthy
         networks:
             - hn-network
     db:
         image: postgres:16
+        restart: always
         ports:
-            - '$DB_PORT_CONTAINER_EXPOSE:5432'
+            - '$DB_PORT_CONTAINER_EXPOSE:$POSTGRES_PORT'
         environment:
-            POSTGRES_USER: $DB_USERNAME
-            POSTGRES_PASSWORD: $DB_PASSWORD
-            POSTGRES_DB: $DB_DATABASE
-            POSTGRES_PORT: $DB_PORT
-            POSTGRES_HOST: $DB_HOST
+            POSTGRES_USER: $POSTGRES_USER
+            POSTGRES_PASSWORD: $POSTGRES_PASS
+            POSTGRES_DB: $POSTGRES_DATABASE
+            POSTGRES_PORT: $POSTGRES_PORT
+            POSTGRES_HOST: $POSTGRES_HOST
             POSTGRES_SSLMODE: disable
         volumes:
             - ./docker/postgres/postgres-data:/var/lib/postgresql/data
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}"]
             interval: 5s
             timeout: 5s
             retries: 5
@@ -38,4 +40,3 @@ services:
 
 networks:
     hn-network:
-

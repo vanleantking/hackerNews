@@ -4,25 +4,28 @@
 3. https://github.com/amitshekhariitbhu/go-backend-clean-architecture
 4. https://github.com/bxcodec/go-clean-arch
 5. https://github.com/khannedy/golang-clean-architecture
-6. https://blog.scalablebackend.com/understand-the-theory-behind-clean-architecture
-7. https://github.com/golang-standards/project-layout
-8. https://eltonminetto.dev/en/post/2020-07-06-clean-architecture-2years-later/
-9. https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/
-10. https://medium.com/@ebubekiryigit/hexagonal-architecture-a-golang-perspective-7eb3cb6117e7
-11. https://eltonminetto.dev/en/post/2020-07-06-clean-architecture-2years-later/
-12. https://threedots.tech/post/ddd-cqrs-clean-architecture-combined/
-13. https://medium.com/@shershnev/layered-architecture-implementation-in-golang-6318a72c1e10
-14. https://medium.com/@kyodo-tech/layered-go-applications-simple-testable-design-1648c7e44b18
-15. https://github.com/AleksK1NG/Go-Clean-Architecture-REST-API/tree/master
-16. https://dev.to/bagashiz/building-restful-api-with-hexagonal-architecture-in-go-1mij
-17. https://dev.to/dyarleniber/hexagonal-architecture-and-clean-architecture-with-examples-48oi
-18. https://medium.com/@rayato159/how-to-implement-clean-architecture-in-golang-en-f50d66378ebf
+6. https://github.com/harmannkibue/golang-gin-clean-architecture
+7. https://blog.scalablebackend.com/understand-the-theory-behind-clean-architecture
+8. https://github.com/golang-standards/project-layout
+9. https://eltonminetto.dev/en/post/2020-07-06-clean-architecture-2years-later/
+10. https://ccd-akademie.de/en/clean-architecture-vs-onion-architecture-vs-hexagonale-architektur/
+11. https://medium.com/@ebubekiryigit/hexagonal-architecture-a-golang-perspective-7eb3cb6117e7
+12. https://eltonminetto.dev/en/post/2020-07-06-clean-architecture-2years-later/
+13. https://threedots.tech/post/ddd-cqrs-clean-architecture-combined/
+14. https://medium.com/@shershnev/layered-architecture-implementation-in-golang-6318a72c1e10
+15. https://medium.com/@kyodo-tech/layered-go-applications-simple-testable-design-1648c7e44b18
+16. https://github.com/AleksK1NG/Go-Clean-Architecture-REST-API/tree/master
+17. https://dev.to/bagashiz/building-restful-api-with-hexagonal-architecture-in-go-1mij
+18. https://dev.to/dyarleniber/hexagonal-architecture-and-clean-architecture-with-examples-48oi
+19. https://medium.com/@rayato159/how-to-implement-clean-architecture-in-golang-en-f50d66378ebf
+20. https://medium.com/@sadensmol/my-clean-architecture-go-application-e4611b1754cb
 
 
 **PROJECT ARCHITECTURE**
  - backend
     -- cmd
         ---- api
+        ---- migrations
     -- db
     -- docker
     -- docs
@@ -35,7 +38,9 @@
         ---- storage
         ---- usecase
     -- pkg
-- `cmd`: expose application into runable format => expose `api` into `main` package for run api instance
+- `cmd`: expose application into runable format =>
+    + expose `api` into `main` package for run api instance
+    + expose `migrate` on `migrations` for construct database hierachy
 - `db`: run on migrations purpose
 - `docker`: include `api` and `postgre` service for run docker service
 - `internal`: core folder for our application:

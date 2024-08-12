@@ -30,14 +30,8 @@ var (
 func NewPostgresDatabase(conf *config.Config, log appLog.Logger) Database {
 	once.Do(func() {
 		dsn := fmt.Sprintf(
-			"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
-			conf.DBHost,
-			conf.DBUser,
-			conf.DBPass,
-			conf.DBName,
-			conf.DBPort,
-			conf.SSLMode,
-			conf.TimeZone,
+			"%s",
+			conf.DBDSN,
 		)
 
 		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
@@ -50,7 +44,7 @@ func NewPostgresDatabase(conf *config.Config, log appLog.Logger) Database {
 			}),
 		})
 		if err != nil {
-			panic(fmt.Sprintf("failed to connect database, %s, %s", err.Error(),  conf.DBPort))
+			panic(fmt.Sprintf("failed to connect database, %s, %s", err.Error(), conf.DBDSN))
 		}
 		dbInstance = &postgresDatabase{Db: db}
 	})
