@@ -25,6 +25,7 @@
  - backend
     -- cmd
         ---- api
+        ---- migrations
     -- db
     -- docker
     -- docs
@@ -37,7 +38,9 @@
         ---- storage
         ---- usecase
     -- pkg
-- `cmd`: expose application into runable format => expose `api` into `main` package for run api instance
+- `cmd`: expose application into runable format =>
+    + expose `api` into `main` package for run api instance
+    + expose `migrate` on `migrations` for construct database hierachy
 - `db`: run on migrations purpose
 - `docker`: include `api` and `postgre` service for run docker service
 - `internal`: core folder for our application:
