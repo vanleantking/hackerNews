@@ -2,7 +2,6 @@ package migrator
 
 import (
 	"context"
-	"fmt"
 	"hackerNewsApi/internal/components/config"
 	"hackerNewsApi/internal/components/gorm"
 	"hackerNewsApi/internal/components/logger"
@@ -22,6 +21,7 @@ type migrator struct {
 	logger logger.Logger
 	cfg    config.Config
 	cmd    string
+	path   string
 	args   []string
 }
 
@@ -32,6 +32,7 @@ func NewMigrator(
 	log logger.Logger,
 	cfg config.Config,
 	cmd string,
+	path string,
 	args []string,
 ) *migrator {
 	return &migrator{
@@ -39,32 +40,20 @@ func NewMigrator(
 		logger: log,
 		cfg:    cfg,
 		cmd:    cmd,
+		path:   path,
 		args:   args}
 }
 
 func (m *migrator) Run() error {
 	dbInstance, err := m.DB.GetDb().DB()
 	if err != nil {
-		return nil
+		return err
 	}
 	if err := goose.SetDialect(dialect); err != nil {
 		return err
 	}
 
-	args := m.args
-	if len(args) == 0 || args[0] == "-h" || args[0] == "--help" {
-		fmt.Println(args)
-		return nil
-	}
-	path := m.cfg.PathMigrate
-	if args[0] == MigrateSeeder {
-		path += "/seeders"
-		args = args[1:]
-	} else {
-		path += "/migrations"
-	}
-
-	if err := goose.RunContext(context.Background(), m.cmd, dbInstance, path, m.args...); err != nil {
+	if err := goose.RunContext(context.Background(), m.cmd, dbInstance, m.path, m.args...); err != nil {
 		return err
 	}
 	return nil
