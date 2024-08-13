@@ -6,6 +6,10 @@ type Repository[T any] struct {
 	DB *gorm.DB
 }
 
+func NewRepository[T any](db *gorm.DB) *Repository[T] {
+	return &Repository[T]{DB: db}
+}
+
 func (r *Repository[T]) Create(db *gorm.DB, entity *T) error {
 	return db.Create(entity).Error
 }

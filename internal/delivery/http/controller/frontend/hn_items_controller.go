@@ -6,6 +6,7 @@ import (
 	"hackerNewsApi/internal/delivery/http/params"
 	hnAPIService "hackerNewsApi/internal/service/hn_api"
 	"hackerNewsApi/internal/service/hn_api/model"
+	"hackerNewsApi/internal/usecase"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,11 +14,13 @@ import (
 
 type HNItemsController struct {
 	APIHNService hnAPIService.HNAPIClient
+	ListItemUsc  usecase.ListItemUseCase
 }
 
-func NewListTopStoriesController(apiService hnAPIService.HNAPIClient) *HNItemsController {
+func NewListTopStoriesController(apiService hnAPIService.HNAPIClient, listItemUsc usecase.ListItemUseCase) *HNItemsController {
 	return &HNItemsController{
 		APIHNService: apiService,
+		ListItemUsc:  listItemUsc,
 	}
 }
 
@@ -36,11 +39,15 @@ func (hnItemController *HNItemsController) ListTopStories(c *gin.Context) {
 		return
 	}
 
-	items, err := hnItemController.APIHNService.GetListTopStories(listItemParams.Method, listItemParams.Params)
+	items, err := hnItemController.APIHNService.GetListTopStories(
+		listItemParams.Method,
+		listItemParams.Params,
+	)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errors.ErrorResponse{Message: err.Error()})
 		return
 	}
 	entities := model.MapperItemsCreateEntity(items.Items)
-	fmt.Println("entities, ", entities, items, len(*entities), len(items.Items))
+	fmt.Println("entities, ", entities, items, len(entities), len(items.Items))
+	hnItemController.ListItemUsc.InsertBulkTopStories(entities)
 }

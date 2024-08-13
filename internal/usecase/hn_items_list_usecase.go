@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"hackerNewsApi/internal/entity"
 	"hackerNewsApi/internal/repository"
 )
@@ -20,6 +21,7 @@ func NewListItemUsercase(itemsRepo repository.ListItemRepository) ListItemUseCas
 }
 
 func (itemsUsc *listItemsUsecase) InsertBulkTopStories(items []entity.Item) []error {
+	fmt.Println("InsertBulkTopStories, ", len(items))
 	// mapper items into entities
 	return itemsUsc.ListItemRepo.UpsertListItems(items)
 }

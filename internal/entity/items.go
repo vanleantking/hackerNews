@@ -1,21 +1,21 @@
 package entity
 
-import "time"
-
 type Item struct {
-	ID        string    `gorm:"column:id;primaryKey"`
-	HNItemID  int       `gorm:"column:hn_item_id"`
-	URL       string    `gorm:"column:url"`
-	Text      string    `gorm:"column:city"`
-	Title     string    `gorm:"column:title"`
-	By        string    `gorm:"column:item_author"`
-	ItemType  string    `gorm:"column:item_type"`
-	Category  string    `gorm:"column:string"`
-	Score     int8      `gorm:"column:score"`
-	UpdatedAt int64     `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
-	CreatedAt time.Time `gorm:"created_at;autoCreateTime:milli"`
+	ID          uint `gorm:"column:id;primaryKey"`
+	HNItemID    uint   `gorm:"column:hn_item_id"`
+	URL         string `gorm:"column:item_url"`
+	Text        string `gorm:"column:item_content"`
+	Title       string `gorm:"column:item_title"`
+	By          string `gorm:"column:item_by"`
+	ItemType    string `gorm:"column:item_type"`
+	Category    uint8  `gorm:"column:category_id"`
+	Score       int8   `gorm:"column:item_score"`
+	CreatedTime int64  `gorm:"column:created_time"`
+	ItemStatus  int    `gorm:"column:item_status"`
+	UpdatedAt   int64  `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
+	CreatedAt   int64  `gorm:"created_at;autoCreateTime:milli"`
 }
 
 func (a *Item) TableName() string {
-	return "hn_items"
+	return "hn_item"
 }

@@ -1,6 +1,8 @@
 package route
 
 import (
+	"hackerNewsApi/internal/components/gorm"
+	"hackerNewsApi/internal/components/logger"
 	"hackerNewsApi/internal/components/server"
 	"net/http"
 
@@ -8,20 +10,24 @@ import (
 )
 
 type RouteConfig struct {
-	App        server.Server
+	Server     server.Server
+	Logger     logger.Logger
 	APIVersion *gin.RouterGroup
+	DB         gorm.Database
 }
 
-func NewRouteConfig(app server.Server) *RouteConfig {
+func NewRouteConfig(srv server.Server, logger logger.Logger, db gorm.Database) *RouteConfig {
 	return &RouteConfig{
-		App: app,
+		Server: srv,
+		Logger: logger,
+		DB:     db,
 	}
 }
 
 func (routeConfig *RouteConfig) Setup() {
 	// setup version api
-	apiversion := routeConfig.App.GetConfig().APIVersion
-	routeConfig.APIVersion = routeConfig.App.GetEngine().Group("/" + apiversion)
+	apiversion := routeConfig.Server.GetConfig().APIVersion
+	routeConfig.APIVersion = routeConfig.Server.GetEngine().Group("/" + apiversion)
 	// All Public APIs
 	routeConfig.SetupGuestRoute()
 
