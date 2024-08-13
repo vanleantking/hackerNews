@@ -14,6 +14,8 @@ services:
         depends_on:
             db:
                 condition: service_healthy
+            redis:
+                condition: service_healthy
         networks:
             - hn-network
     db:
@@ -37,6 +39,21 @@ services:
             retries: 5
         networks:
             - hn-network
+    redis:
+        container_name: 'redis-hn-app-container'
+        image: redis:7.2.4
+        volumes:
+            - ./docker/redis:/etc/redis
+        command: ['redis-server', '/etc/redis/redis.conf']
+        ports:
+            - '$REDIS_PORT_CONTAINER_EXPOSE:$REDIS_PORT'
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 1s
+            timeout: 3s
+            retries: 30
+        networks:
+          - hn-network
 
 networks:
     hn-network:
