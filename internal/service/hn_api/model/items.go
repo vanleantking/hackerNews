@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"hackerNewsApi/internal/entity"
 	"time"
 )
@@ -27,12 +26,10 @@ func MapperItemsCreateEntity(items []int64) []entity.Item {
 	for _, item := range items {
 		itemEntity := entity.Item{
 			HNItemID:  uint(item),
+			Score:     0,
 			UpdatedAt: currentTime.Unix(),
 			CreatedAt: currentTime.Unix(),
 		}
-
-		fmt.Println("MapperItemsCreateEntity, ", item, itemEntity.HNItemID, itemEntity.ID)
-
 		tmp = append(tmp, itemEntity)
 	}
 	if len(tmp) > 0 {

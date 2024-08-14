@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"encoding/json"
-	"fmt"
 	"hackerNewsApi/internal/components/logger"
 	"hackerNewsApi/internal/entity"
 	"time"
@@ -29,7 +27,6 @@ func NewListItemRepository(log *logger.Logger, db *gorm.DB) ListItemRepository {
 
 func (listItems *listItemRepository) UpsertListItems(items []entity.Item) []error {
 	var errs = make([]error, 0)
-	fmt.Println("before insert errs, UpsertListItems ", len(items), listItems.DB)
 	for _, item := range items {
 		tx := listItems.DB.
 			Where("hn_item_id=?", item.HNItemID).
@@ -39,12 +36,8 @@ func (listItems *listItemRepository) UpsertListItems(items []entity.Item) []erro
 			errs = append(errs, tx.Error)
 			continue
 		}
-		fmt.Println("itemmmmmmmm, ", item, tx)
-		r, _ := json.Marshal(item)
-		fmt.Println(string(r))
 		time.Sleep(100 * time.Millisecond)
 	}
-	fmt.Println("errs, UpsertListItems ", errs, len(items))
 	return errs
 }
 
@@ -52,7 +45,7 @@ func (listItems *listItemRepository) UpsertBulkItems(items []entity.Item) error 
 	tx := listItems.DB.Clauses(clause.OnConflict{
 		Columns: []clause.Column{{Name: "hn_item_id"}},
 		DoUpdates: clause.AssignmentColumns([]string{
-			"score",
+			"item_score",
 			"updated_at"}),
 	}).Create(&items)
 	return tx.Error

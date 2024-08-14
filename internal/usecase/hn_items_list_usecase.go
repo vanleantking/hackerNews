@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"fmt"
 	"hackerNewsApi/internal/entity"
 	"hackerNewsApi/internal/repository"
 )
@@ -12,6 +11,7 @@ type listItemsUsecase struct {
 
 type ListItemUseCase interface {
 	InsertBulkTopStories(items []entity.Item) []error
+	InsertBulkTopStoriesV2(items []entity.Item) error
 }
 
 func NewListItemUsercase(itemsRepo repository.ListItemRepository) ListItemUseCase {
@@ -21,7 +21,11 @@ func NewListItemUsercase(itemsRepo repository.ListItemRepository) ListItemUseCas
 }
 
 func (itemsUsc *listItemsUsecase) InsertBulkTopStories(items []entity.Item) []error {
-	fmt.Println("InsertBulkTopStories, ", len(items))
 	// mapper items into entities
 	return itemsUsc.ListItemRepo.UpsertListItems(items)
+}
+
+func (itemsUsc *listItemsUsecase) InsertBulkTopStoriesV2(items []entity.Item) error {
+	// mapper items into entities
+	return itemsUsc.ListItemRepo.UpsertBulkItems(items)
 }
