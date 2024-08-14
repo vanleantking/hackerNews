@@ -2,15 +2,16 @@ package model
 
 import (
 	"hackerNewsApi/internal/entity"
+	"hackerNewsApi/internal/service/hn_api/common"
 	"time"
 )
 
 type Item struct {
 	ItemBy    string `json:"by"`
-	ItemID    int    `json:"id"`
+	ItemID    uint   `json:"id"`
 	ItemScore int    `json:"score"`
 	ItemText  string `json:"text"`
-	ItemTime  uint16 `json:time"`
+	ItemTime  uint   `json:time"`
 	ItemTitle string `json:"title"`
 	ItemType  string `json:"type"`
 	ItemURL   string `json:"url"`
@@ -20,22 +21,22 @@ type HNItems struct {
 	Items []int64
 }
 
-func MapperItemsCreateEntity(items []int64) *[]entity.Item {
+func MapperItemsCreateEntity(items []int64) []entity.Item {
 	currentTime := time.Now()
 	var tmp = make([]entity.Item, 0)
 	for _, item := range items {
 		itemEntity := entity.Item{
-			HNItemID:  int(item),
+			HNItemID:  uint(item),
+			Score:     0,
 			UpdatedAt: currentTime.Unix(),
-			CreatedAt: currentTime,
+			CreatedAt: currentTime.Unix(),
 		}
-
 		tmp = append(tmp, itemEntity)
 	}
 	if len(tmp) > 0 {
 		result := make([]entity.Item, len(tmp))
 		copy(result, tmp)
-		return &result
+		return result
 	}
 	return nil
 }
@@ -45,16 +46,18 @@ func MapperItemsUpsertEntity(items []Item) *[]entity.Item {
 	var tmp = make([]entity.Item, 0)
 	for _, item := range items {
 		itemEntity := entity.Item{}
-		itemEntity.HNItemID = item.ItemID
+		itemEntity.HNItemID = uint(item.ItemID)
 		itemEntity.URL = item.ItemURL
 		itemEntity.Text = item.ItemText
 		itemEntity.Title = item.ItemTitle
 		itemEntity.By = item.ItemBy
 		itemEntity.ItemType = item.ItemType
-		itemEntity.Category = ""
+		itemEntity.Category = common.ITEM_CATEGORY_DEFAULT
 		itemEntity.Score = int8(item.ItemScore)
+		itemEntity.CreatedTime = int64(item.ItemTime)
 		itemEntity.UpdatedAt = currentTime.Unix()
-		itemEntity.CreatedAt = currentTime
+		itemEntity.CreatedAt = currentTime.Unix()
+		itemEntity.ItemStatus = common.ITEM_STATUS_NEW
 		tmp = append(tmp, itemEntity)
 	}
 	if len(tmp) > 0 {

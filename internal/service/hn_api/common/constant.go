@@ -9,3 +9,14 @@ const (
 	ENDPOINT_MAXITEM    = "maxitem"
 	ENDPOINT_UPDATES    = "updates"
 )
+
+const (
+	ITEM_STATUS_NEW              = 0
+	ITEM_STATUS_PROCESS_TITLE    = 1
+	ITEM_STATUS_PROCESS_CATEGORY = 2
+	ITEM_STATUS_DELETE           = 7
+)
+
+const (
+	ITEM_CATEGORY_DEFAULT = 0
+)

@@ -8,4 +8,7 @@ https://app.diagrams.net/#G172yRYuqseO2EwybBWPHzVWOQWTD4UL5F#%7B%22pageId%22%3A%
     - https://marclou.beehiiv.com/p/how-to-launch-a-startup-on-hacker-news
     - https://histre.com/integrations/
     - https://thehackernews.com/search/label/data%20breach
-    - 
+
+
+
+https://stackoverflow.com/questions/39333102/how-to-create-or-update-a-record-with-gorm

@@ -10,7 +10,7 @@ func main() {
 
 	app := components.AppConfig()
 
-	routeCfg := route.NewRouteConfig(app.Server)
+	routeCfg := route.NewRouteConfig(app.Server, app.Logger, app.DB)
 	routeCfg.Setup()
 
 	app.Server.Run()
