@@ -2,6 +2,7 @@ package model
 
 import (
 	"hackerNewsApi/internal/entity"
+	"hackerNewsApi/internal/service/hn_api/common"
 	"time"
 )
 
@@ -51,12 +52,12 @@ func MapperItemsUpsertEntity(items []Item) *[]entity.Item {
 		itemEntity.Title = item.ItemTitle
 		itemEntity.By = item.ItemBy
 		itemEntity.ItemType = item.ItemType
-		itemEntity.Category = 0
+		itemEntity.Category = common.ITEM_CATEGORY_DEFAULT
 		itemEntity.Score = int8(item.ItemScore)
 		itemEntity.CreatedTime = int64(item.ItemTime)
 		itemEntity.UpdatedAt = currentTime.Unix()
 		itemEntity.CreatedAt = currentTime.Unix()
-		itemEntity.ItemStatus = 0
+		itemEntity.ItemStatus = common.ITEM_STATUS_NEW
 		tmp = append(tmp, itemEntity)
 	}
 	if len(tmp) > 0 {
