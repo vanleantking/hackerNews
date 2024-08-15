@@ -1,20 +1,23 @@
 package model
 
 import (
+	"encoding/json"
 	"hackerNewsApi/internal/entity"
 	"hackerNewsApi/internal/service/hn_api/common"
 	"time"
 )
 
 type Item struct {
-	ItemBy    string `json:"by"`
-	ItemID    uint   `json:"id"`
-	ItemScore int    `json:"score"`
-	ItemText  string `json:"text"`
-	ItemTime  uint   `json:time"`
-	ItemTitle string `json:"title"`
-	ItemType  string `json:"type"`
-	ItemURL   string `json:"url"`
+	ItemBy      string          `json:"by"`
+	ItemID      uint            `json:"id"`
+	ItemScore   int             `json:"score"`
+	ItemText    string          `json:"text"`
+	ItemTime    uint            `json:time"`
+	ItemTitle   string          `json:"title"`
+	ItemType    string          `json:"type"`
+	ItemURL     string          `json:"url"`
+	DescenDants uint            `json:"descendants"`
+	Kids        json.RawMessage `json:"kids"`
 }
 
 type HNItems struct {
@@ -53,7 +56,7 @@ func MapperItemsUpsertEntity(items []Item) *[]entity.Item {
 		itemEntity.By = item.ItemBy
 		itemEntity.ItemType = item.ItemType
 		itemEntity.Category = common.ITEM_CATEGORY_DEFAULT
-		itemEntity.Score = int8(item.ItemScore)
+		itemEntity.Score = int(item.ItemScore)
 		itemEntity.CreatedTime = int64(item.ItemTime)
 		itemEntity.UpdatedAt = currentTime.Unix()
 		itemEntity.CreatedAt = currentTime.Unix()
@@ -66,4 +69,25 @@ func MapperItemsUpsertEntity(items []Item) *[]entity.Item {
 		return &result
 	}
 	return nil
+}
+
+func MapperSingleItemEntity(item Item) entity.Item {
+	currentTime := time.Now()
+	itemEntity := entity.Item{
+		HNItemID:    uint(item.ItemID),
+		URL:         item.ItemURL,
+		Text:        item.ItemText,
+		Title:       item.ItemTitle,
+		By:          item.ItemBy,
+		ItemType:    item.ItemType,
+		DescenDants: int(item.DescenDants),
+		Kids:        item.Kids,
+		Category:    common.ITEM_CATEGORY_DEFAULT,
+		Score:       int(item.ItemScore),
+		CreatedTime: int64(item.ItemTime),
+		UpdatedAt:   currentTime.Unix(),
+		CreatedAt:   currentTime.Unix(),
+		ItemStatus:  common.ITEM_STATUS_NEW,
+	}
+	return itemEntity
 }
