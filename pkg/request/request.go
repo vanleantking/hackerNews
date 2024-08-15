@@ -33,7 +33,7 @@ func NewClient() *Client {
 	return &Client{client: &httpClient}
 }
 
-func (client *Client) MakeRequest(method, urlRequest string, data map[string]string) ([]byte, error) {
+func (client *Client) MakeRequest(method, urlRequest string, data map[string]interface{}) ([]byte, error) {
 
 	req, err := client.MakeNewRequest(method, urlRequest, data)
 	if err != nil {
@@ -67,7 +67,7 @@ func (client *Client) MakeRequest(method, urlRequest string, data map[string]str
 	return io.ReadAll(reader)
 }
 
-func (client *Client) MakeNewRequest(method, urlStr string, data map[string]string) (*http.Request, error) {
+func (client *Client) MakeNewRequest(method, urlStr string, data map[string]interface{}) (*http.Request, error) {
 	u, err := url.Parse(urlStr)
 	if err != nil {
 		return nil, err
@@ -92,7 +92,7 @@ func (client *Client) MakeNewRequest(method, urlStr string, data map[string]stri
 	}
 	params := url.Values{}
 	for key, val := range data {
-		params.Add(key, val)
+		params.Add(key, val.(string))
 	}
 	reqBody = bytes.NewBufferString(params.Encode())
 	return http.NewRequest(method, u.String(), reqBody)

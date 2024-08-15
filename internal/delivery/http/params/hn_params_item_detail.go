@@ -7,12 +7,12 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type ListItemParams struct {
-	Method string                 `json:"method" validate:"required,oneof=GET POST PUT DELETE"`
-	Params map[string]interface{} `json:"params" validate:"required"`
+type ItemDetailParams struct {
+	Method string `json:"method" validate:"required,oneof=GET POST PUT DELETE"`
+	ItemID int    `json:"item_id" validate:"required"`
 }
 
-func ValidatorListItemsRequest(listItemsRequest ListItemParams) []error {
+func ValidatorItemDetailRequest(listItemsRequest ItemDetailParams) []error {
 	validate := validator.New()
 	var errs []error
 	err := validate.Struct(listItemsRequest)

@@ -16,7 +16,8 @@ type hnAPIClient struct {
 }
 
 type HNAPIClient interface {
-	GetListTopStories(method string, params map[string]string) (*model.HNItems, error)
+	GetListTopStories(method string, params map[string]interface{}) (*model.HNItems, error)
+	GetItemDetailById(method string, itemId int) (*model.Item, error)
 }
 
 func NewHNAPIClient(
@@ -30,10 +31,9 @@ func NewHNAPIClient(
 	}
 }
 
-func (api *hnAPIClient) GetListTopStories(method string, params map[string]string) (*model.HNItems, error) {
+func (api *hnAPIClient) GetListTopStories(method string, params map[string]interface{}) (*model.HNItems, error) {
 	endPoint := common.ENDPOINT_TOPSTORIES
-	urlRequest := api.generateFullURLRequest(endPoint)
-	fmt.Println("urlRequest GetListTopStories, ", urlRequest)
+	urlRequest := api.generateFullURLRequest(endPoint, 0)
 	resByte, err := api.ApiClient.MakeRequest(method, urlRequest, params)
 	if err != nil {
 		return new(model.HNItems), err
@@ -45,7 +45,35 @@ func (api *hnAPIClient) GetListTopStories(method string, params map[string]strin
 	return &model.HNItems{Items: tmp}, nil
 }
 
-func (api *hnAPIClient) generateFullURLRequest(endPoint string) string {
+func (api *hnAPIClient) GetItemDetailById(method string, itemId int) (*model.Item, error) {
+	endPoint := common.ENDPOINT_ITEM
+	urlRequest := api.generateFullURLRequest(endPoint, itemId)
+	fmt.Println("urlRequest GetItemDetailById, ", urlRequest, method, itemId, endPoint)
+	var params = map[string]interface{}{
+		"item_id": itemId,
+	}
+	resByte, err := api.ApiClient.MakeRequest(method, urlRequest, params)
+	if err != nil {
+		return new(model.Item), err
+	}
+	var item model.Item
+	err = json.Unmarshal(resByte, &item)
+	return &item, err
+}
+
+func (api *hnAPIClient) generateFullURLRequest(endPoint string, itemId int) string {
+	// on end-point get item detail
+	if endPoint == common.ENDPOINT_ITEM {
+		return fmt.Sprintf(
+			"%s/%s/%s/%d.%s",
+			api.BaseURL,
+			api.VersionAPI,
+			endPoint,
+			itemId,
+			api.APIFormat,
+		)
+	}
+	// otherwise other endpoint
 	return fmt.Sprintf(
 		"%s/%s/%s.%s",
 		api.BaseURL,
