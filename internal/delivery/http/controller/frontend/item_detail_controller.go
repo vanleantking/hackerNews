@@ -31,15 +31,12 @@ func (hnItemController *HNItemDetailController) GetDetailItem(c *gin.Context) {
 
 	err := c.BindJSON(&itemDetailParams)
 	if err != nil {
-		panic(err.Error())
 		c.JSON(http.StatusBadRequest, httpstatus.ErrorResponse{Message: err.Error()})
 		return
 	}
 	errs := params.ValidatorItemDetailRequest(itemDetailParams)
 	if errs != nil {
 		err = errs[0]
-		panic("ValidatorItemDetailRequest, " + err.Error())
-		panic(err.Error())
 		c.JSON(http.StatusBadRequest, httpstatus.ErrorResponse{Message: err.Error()})
 		return
 	}
@@ -49,15 +46,12 @@ func (hnItemController *HNItemDetailController) GetDetailItem(c *gin.Context) {
 		itemDetailParams.ItemID,
 	)
 	if err != nil {
-		panic("GetItemDetailById, " + err.Error())
-		panic(err.Error())
 		c.JSON(http.StatusBadRequest, httpstatus.ErrorResponse{Message: err.Error()})
 		return
 	}
 	itemEntity := model.MapperSingleItemEntity(*item)
 	err = hnItemController.ItemDetailUsc.UpdateDetailTopStory(itemEntity)
 	if err != nil {
-		panic("hnItemController, " + err.Error())
 		c.JSON(http.StatusBadRequest, httpstatus.ErrorResponse{Message: err.Error()})
 		return
 	}
