@@ -3,6 +3,7 @@ package repository
 import (
 	"hackerNewsApi/internal/components/logger"
 	"hackerNewsApi/internal/entity"
+	"hackerNewsApi/internal/service/hn_api/common"
 
 	"gorm.io/gorm"
 )
@@ -33,6 +34,9 @@ func (listItems *itemDetailRepository) UpdateItem(item entity.Item) error {
 			DescenDants: item.DescenDants,
 			Kids:        item.Kids,
 			ItemType:    item.ItemType,
+			CreatedTime: item.CreatedTime,
+			ItemDeleted: item.ItemDeleted,
+			ItemStatus:  common.ITEM_STATUS_PROCESS_TITLE,
 			UpdatedAt:   item.UpdatedAt}).
 		FirstOrCreate(&item)
 	return tx.Error

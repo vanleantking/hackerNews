@@ -34,7 +34,6 @@ func NewHNAPIClient(
 func (api *hnAPIClient) GetListTopStories(method string, params map[string]interface{}) (*model.HNItems, error) {
 	endPoint := common.ENDPOINT_TOPSTORIES
 	urlRequest := api.generateFullURLRequest(endPoint, 0)
-	fmt.Println("urlRequest GetListTopStories, ", urlRequest)
 	resByte, err := api.ApiClient.MakeRequest(method, urlRequest, params)
 	if err != nil {
 		return new(model.HNItems), err

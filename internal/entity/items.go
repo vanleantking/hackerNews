@@ -14,6 +14,7 @@ type Item struct {
 	Score       int             `gorm:"column:item_score"`
 	CreatedTime int64           `gorm:"column:created_time"`
 	DescenDants int             `gorm:"column:descendants"`
+	ItemDeleted bool            `gorm:"column:deleted"`
 	Kids        json.RawMessage `gorm:"column:kids"`
 	ItemStatus  int             `gorm:"column:item_status"`
 	UpdatedAt   int64           `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`

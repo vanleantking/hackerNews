@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"fmt"
 	"hackerNewsApi/internal/entity"
 	"hackerNewsApi/internal/service/hn_api/common"
 	"time"
@@ -12,12 +13,21 @@ type Item struct {
 	ItemID      uint            `json:"id"`
 	ItemScore   int             `json:"score"`
 	ItemText    string          `json:"text"`
-	ItemTime    uint            `json:time"`
+	ItemTime    uint            `json:"time"`
 	ItemTitle   string          `json:"title"`
 	ItemType    string          `json:"type"`
 	ItemURL     string          `json:"url"`
+	ItemDelete  *bool           `json:"deleted"`
 	DescenDants uint            `json:"descendants"`
 	Kids        json.RawMessage `json:"kids"`
+}
+
+func (item *Item) MapperItemDeleted() bool {
+	isFalse := false
+	if item.ItemDelete == nil {
+		item.ItemDelete = &isFalse
+	}
+	return *item.ItemDelete
 }
 
 type HNItems struct {
@@ -87,7 +97,9 @@ func MapperSingleItemEntity(item Item) entity.Item {
 		CreatedTime: int64(item.ItemTime),
 		UpdatedAt:   currentTime.Unix(),
 		CreatedAt:   currentTime.Unix(),
+		ItemDeleted: item.MapperItemDeleted(),
 		ItemStatus:  common.ITEM_STATUS_NEW,
 	}
+	fmt.Println("MapperSingleItemEntity, ", item.MapperItemDeleted(), item.ItemDelete)
 	return itemEntity
 }
