@@ -1,8 +1,10 @@
-package repository
+package postgre
 
 import (
 	"hackerNewsApi/internal/components/logger"
-	"hackerNewsApi/internal/entity"
+	"hackerNewsApi/internal/domains/entity"
+	"hackerNewsApi/internal/domains/usecases"
+	"hackerNewsApi/internal/infrastructure/repository"
 	"time"
 
 	"gorm.io/gorm"
@@ -10,18 +12,13 @@ import (
 )
 
 type listItemRepository struct {
-	Repository[entity.Item]
+	repository.Repository[entity.Item]
 	Log *logger.Logger
 }
 
-type ListItemRepository interface {
-	UpsertListItems(items []entity.Item) []error
-	UpsertBulkItems(items []entity.Item) error
-}
-
-func NewListItemRepository(log *logger.Logger, db *gorm.DB) ListItemRepository {
+func NewListItemRepository(log *logger.Logger, db *gorm.DB) usecases.ListItemRepository {
 	return &listItemRepository{
-		Repository: *NewRepository[entity.Item](db),
+		Repository: *repository.NewRepository[entity.Item](db),
 	}
 }
 

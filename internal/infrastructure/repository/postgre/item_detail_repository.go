@@ -1,25 +1,23 @@
-package repository
+package postgre
 
 import (
 	"hackerNewsApi/internal/components/logger"
-	"hackerNewsApi/internal/entity"
-	"hackerNewsApi/internal/service/hn_api/common"
+	"hackerNewsApi/internal/domains/entity"
+	"hackerNewsApi/internal/domains/usecases"
+	"hackerNewsApi/internal/infrastructure/repository"
+	"hackerNewsApi/internal/infrastructure/service/hn_api/common"
 
 	"gorm.io/gorm"
 )
 
 type itemDetailRepository struct {
-	Repository[entity.Item]
+	repository.Repository[entity.Item]
 	Log *logger.Logger
 }
 
-type ItemDetailRepository interface {
-	UpdateItem(items entity.Item) error
-}
-
-func NewItemDetailRepository(log *logger.Logger, db *gorm.DB) ItemDetailRepository {
+func NewItemDetailRepository(log *logger.Logger, db *gorm.DB) usecases.ItemDetailRepository {
 	return &itemDetailRepository{
-		Repository: *NewRepository[entity.Item](db),
+		Repository: *repository.NewRepository[entity.Item](db),
 	}
 }
 

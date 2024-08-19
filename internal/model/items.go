@@ -2,9 +2,8 @@ package model
 
 import (
 	"encoding/json"
-	"fmt"
-	"hackerNewsApi/internal/entity"
-	"hackerNewsApi/internal/service/hn_api/common"
+	"hackerNewsApi/internal/domains/entity"
+	"hackerNewsApi/internal/infrastructure/service/hn_api/common"
 	"time"
 )
 
@@ -100,6 +99,5 @@ func MapperSingleItemEntity(item Item) entity.Item {
 		ItemDeleted: item.MapperItemDeleted(),
 		ItemStatus:  common.ITEM_STATUS_NEW,
 	}
-	fmt.Println("MapperSingleItemEntity, ", item.MapperItemDeleted(), item.ItemDelete)
 	return itemEntity
 }

@@ -1,20 +1,15 @@
 package usecase
 
 import (
-	"hackerNewsApi/internal/entity"
-	"hackerNewsApi/internal/repository"
+	"hackerNewsApi/internal/domains/entity"
+	"hackerNewsApi/internal/domains/usecases"
 )
 
 type listItemsUsecase struct {
-	ListItemRepo repository.ListItemRepository
+	ListItemRepo usecases.ListItemRepository
 }
 
-type ListItemUseCase interface {
-	InsertBulkTopStories(items []entity.Item) []error
-	InsertBulkTopStoriesV2(items []entity.Item) error
-}
-
-func NewListItemUsercase(itemsRepo repository.ListItemRepository) ListItemUseCase {
+func NewListItemUsercase(itemsRepo usecases.ListItemRepository) usecases.ListItemUseCase {
 	return &listItemsUsecase{
 		ListItemRepo: itemsRepo,
 	}

@@ -34,6 +34,9 @@ type Config struct {
 	HNAPIVersion           string `mapstructure:"HN_VERSION"`
 	HNAPIFormat            string `mapstructure:"HN_FORMAT_API"`
 	PathMigrate            string `mapstructure:"PATH_MIGRATE"`
+	RedisURI               string `mapstructure:"REDIS_URI"`
+	RedisMaxActive         int    `mapstructure:"REDIS_MAX_ACTIVE"`
+	RedisMaxIdle           int    `mapstructure:"REDIS_MAX_IDLE"`
 }
 
 var (

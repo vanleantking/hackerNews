@@ -1,19 +1,15 @@
 package usecase
 
 import (
-	"hackerNewsApi/internal/entity"
-	"hackerNewsApi/internal/repository"
+	"hackerNewsApi/internal/domains/entity"
+	"hackerNewsApi/internal/domains/usecases"
 )
 
 type itemDetailUsecase struct {
-	ItemDetailRepository repository.ItemDetailRepository
+	ItemDetailRepository usecases.ItemDetailRepository
 }
 
-type ItemDetailUseCase interface {
-	UpdateDetailTopStory(items entity.Item) error
-}
-
-func NewItemDetailUseCase(itemDetailRepo repository.ItemDetailRepository) ItemDetailUseCase {
+func NewItemDetailUseCase(itemDetailRepo usecases.ItemDetailRepository) usecases.ItemDetailUseCase {
 	return &itemDetailUsecase{
 		ItemDetailRepository: itemDetailRepo,
 	}

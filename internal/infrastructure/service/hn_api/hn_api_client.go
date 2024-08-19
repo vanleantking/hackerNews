@@ -3,8 +3,9 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"hackerNewsApi/internal/service/hn_api/common"
-	"hackerNewsApi/internal/service/hn_api/model"
+	"hackerNewsApi/internal/domains/services"
+	"hackerNewsApi/internal/infrastructure/service/hn_api/common"
+	"hackerNewsApi/internal/model"
 	"hackerNewsApi/pkg/request"
 )
 
@@ -15,14 +16,9 @@ type hnAPIClient struct {
 	APIFormat  string
 }
 
-type HNAPIClient interface {
-	GetListTopStories(method string, params map[string]interface{}) (*model.HNItems, error)
-	GetItemDetailById(method string, itemId int) (*model.Item, error)
-}
-
 func NewHNAPIClient(
 	client *request.Client,
-	apiBaseURL, apiVersion, apiFormat string) HNAPIClient {
+	apiBaseURL, apiVersion, apiFormat string) services.HNAPIClient {
 	return &hnAPIClient{
 		ApiClient:  client,
 		BaseURL:    apiBaseURL,
@@ -31,7 +27,10 @@ func NewHNAPIClient(
 	}
 }
 
-func (api *hnAPIClient) GetListTopStories(method string, params map[string]interface{}) (*model.HNItems, error) {
+func (api *hnAPIClient) GetListTopStories(
+	method string,
+	params map[string]interface{},
+) (*model.HNItems, error) {
 	endPoint := common.ENDPOINT_TOPSTORIES
 	urlRequest := api.generateFullURLRequest(endPoint, 0)
 	resByte, err := api.ApiClient.MakeRequest(method, urlRequest, params)
@@ -48,7 +47,6 @@ func (api *hnAPIClient) GetListTopStories(method string, params map[string]inter
 func (api *hnAPIClient) GetItemDetailById(method string, itemId int) (*model.Item, error) {
 	endPoint := common.ENDPOINT_ITEM
 	urlRequest := api.generateFullURLRequest(endPoint, itemId)
-	fmt.Println("urlRequest GetItemDetailById, ", urlRequest, method, itemId, endPoint)
 	var params = map[string]interface{}{
 		"item_id": itemId,
 	}

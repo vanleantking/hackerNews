@@ -19,6 +19,7 @@
 18. https://dev.to/dyarleniber/hexagonal-architecture-and-clean-architecture-with-examples-48oi
 19. https://medium.com/@rayato159/how-to-implement-clean-architecture-in-golang-en-f50d66378ebf
 20. https://medium.com/@sadensmol/my-clean-architecture-go-application-e4611b1754cb
+21. https://www.youtube.com/watch?v=eUW2CYAT1Nk
 
 
 **PROJECT ARCHITECTURE**
@@ -58,4 +59,13 @@
     Services:
         Domain Services: When you have complex business logic that doesn't naturally belong to an entity or a value object.
         Infrastructure Services: When you need to interact with external systems, libraries, or resources (e.g., databases, email providers, payment gateways).
-    + `domain` layer = `usecase` + `repository`
+    + `domain` layer = `usecase` + `repository` => in a simple application, it's includes `usecase + repository`, for other complex applications, to know how many domains you need for your application, dive into `DDD`
+      * `domain layer` is responsible for anything that has to do with `business logic` + `business decisions` + `business terminology`
+=> `DDD(domain driven design)` => Domain design => domain expert => expose `problem space` for domain (banking, real estate) => build common language between business domain expert + developer `before` start building the system
+
+**clean architecture**
+    a `software design philosophy` proposed by Robert C. Martin (Uncle Bob), `emphasizes the separation of concerns and the independence of frameworks, databases, and user interfaces`
+    I. principle of clean architecture:
+    - `Separation of Concerns`: Dividing the system into layers, each with a specific responsibility.
+    - `Dependency Rule`: Code dependencies can only point inward. `High-level modules should not depend on low-level modules`.
+    - `Encapsulation`: Each layer hides its internal workings from others, exposing only what is necessary.
