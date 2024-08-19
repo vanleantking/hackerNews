@@ -2,7 +2,7 @@ package server
 
 import (
 	"fmt"
-	"hackerNewsApi/internal/components/config"
+	"hackerNewsApi/pkg/config"
 
 	"github.com/gin-gonic/gin"
 )

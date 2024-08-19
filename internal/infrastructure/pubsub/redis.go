@@ -3,7 +3,7 @@ package pubsub
 import (
 	"context"
 	"encoding/json"
-	"hackerNewsApi/internal/components/config"
+	"hackerNewsApi/pkg/config"
 	"hackerNewsApi/internal/domains/events"
 	"log"
 

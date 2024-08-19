@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"hackerNewsApi/internal/components/config"
+	"hackerNewsApi/pkg/config"
 
 	"github.com/go-playground/validator/v10"
 )

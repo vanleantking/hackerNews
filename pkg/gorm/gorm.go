@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"hackerNewsApi/internal/components/config"
+	"hackerNewsApi/pkg/config"
 
-	appLog "hackerNewsApi/internal/components/logger"
+	appLog "hackerNewsApi/pkg/logger"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

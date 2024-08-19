@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"hackerNewsApi/internal/components/config"
+	"hackerNewsApi/pkg/config"
 	"sync"
 
 	"github.com/sirupsen/logrus"

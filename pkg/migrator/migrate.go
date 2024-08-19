@@ -2,9 +2,9 @@ package migrator
 
 import (
 	"context"
-	"hackerNewsApi/internal/components/config"
-	"hackerNewsApi/internal/components/gorm"
-	"hackerNewsApi/internal/components/logger"
+	"hackerNewsApi/pkg/config"
+	"hackerNewsApi/pkg/gorm"
+	"hackerNewsApi/pkg/logger"
 
 	"github.com/pressly/goose/v3"
 )

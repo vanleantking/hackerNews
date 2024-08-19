@@ -1,7 +1,7 @@
 package postgre
 
 import (
-	"hackerNewsApi/internal/components/logger"
+	"hackerNewsApi/pkg/logger"
 	"hackerNewsApi/internal/domains/entity"
 	"hackerNewsApi/internal/domains/usecases"
 	"hackerNewsApi/internal/infrastructure/repository"

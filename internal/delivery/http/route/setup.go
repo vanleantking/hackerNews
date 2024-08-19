@@ -1,9 +1,9 @@
 package route
 
 import (
-	"hackerNewsApi/internal/components/gorm"
-	"hackerNewsApi/internal/components/logger"
-	"hackerNewsApi/internal/components/server"
+	"hackerNewsApi/pkg/gorm"
+	"hackerNewsApi/pkg/logger"
+	"hackerNewsApi/pkg/server"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
