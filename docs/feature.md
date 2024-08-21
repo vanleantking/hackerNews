@@ -12,3 +12,4 @@ https://app.diagrams.net/#G172yRYuqseO2EwybBWPHzVWOQWTD4UL5F#%7B%22pageId%22%3A%
 
 
 https://stackoverflow.com/questions/39333102/how-to-create-or-update-a-record-with-gorm
+https://www.youtube.com/watch?v=KIFA_fFzSbo&t=80s

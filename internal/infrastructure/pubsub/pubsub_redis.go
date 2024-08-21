@@ -3,7 +3,6 @@ package pubsub
 import (
 	"context"
 	"encoding/json"
-	pubsubBus "hackerNewsApi/internal/domains/pubsub"
 	"hackerNewsApi/pkg/redis"
 	"log"
 	"sync"
@@ -22,7 +21,7 @@ func NewRedisClient(redisClient redis.RedisClient) (PubSubClient, error) {
 	}, nil
 }
 
-func (bus *redisPubsubClient) Publish(ctx context.Context, event pubsubBus.PubSubEvent) error {
+func (bus *redisPubsubClient) Publish(ctx context.Context, event PubSubEvent) error {
 	data, err := json.Marshal(event)
 	if err != nil {
 		return err
@@ -36,14 +35,14 @@ func (bus *redisPubsubClient) Publish(ctx context.Context, event pubsubBus.PubSu
 
 func (bus *redisPubsubClient) Subscribe(
 	ctx context.Context,
-	topic string, handler func(pubsubBus.PubSubEvent) error,
+	topic string, handler func(PubSubEvent) error,
 ) error {
 	pubsub := bus.pubsubClient.GetClient().Subscribe(ctx, topic)
 	defer pubsub.Close()
 
 	ch := pubsub.Channel()
 	for msg := range ch {
-		var event pubsubBus.PubSubEvent
+		var event PubSubEvent
 		if err := json.Unmarshal([]byte(msg.Payload), &event); err != nil {
 			log.Println("Error unmarshalling event:", err)
 			continue
@@ -58,9 +57,9 @@ func (bus *redisPubsubClient) Subscribe(
 
 /**
  * Subcripbe for list
- * map[topic]handler : handler func(data pubsubBus.PubSubEvent) error
+ * map[topic]handler : handler func(data PubSubEvent) error
  */
-type HandlerFunc func(data pubsubBus.PubSubEvent) error
+type HandlerFunc func(data PubSubEvent) error
 
 func (r *redisPubsubClient) Subscribes(ctx context.Context, handers map[string]HandlerFunc) error {
 	var wg sync.WaitGroup

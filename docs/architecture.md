@@ -20,6 +20,11 @@
 19. https://medium.com/@rayato159/how-to-implement-clean-architecture-in-golang-en-f50d66378ebf
 20. https://medium.com/@sadensmol/my-clean-architecture-go-application-e4611b1754cb
 21. https://www.youtube.com/watch?v=eUW2CYAT1Nk
+22. https://github.com/resotto/goilerplate/tree/master
+23. https://outcomeschool.com/blog/go-backend-clean-architecture
+24. https://vidhyanshu.medium.com/implementing-clean-architecture-in-go-56aca59311b3
+25. https://www.reddit.com/r/golang/comments/1bzg8gi/what_architecture_has_been_the_best_for_you/
+26. https://github.com/herryg91/go-clean-architecture
 
 
 **PROJECT ARCHITECTURE**

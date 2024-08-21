@@ -1,9 +1,12 @@
 package batchprocessing
 
 import (
+	"context"
 	"hackerNewsApi/internal/common"
+	"hackerNewsApi/internal/domains/pubsub"
 	"hackerNewsApi/internal/domains/services"
 	"hackerNewsApi/internal/domains/usecases"
+	eventItem "hackerNewsApi/internal/infrastructure/pubsub/item"
 	hnCommon "hackerNewsApi/internal/infrastructure/service/hn_api/common"
 	"hackerNewsApi/internal/model"
 )
@@ -11,12 +14,14 @@ import (
 type BatchProcessingItemList interface {
 	ProcessItemList() error
 	ProcessUpdateHNItems() error
+	RunBatchProcess() error
 }
 
 type batchProcessingTopStories struct {
 	ItemListUsc   usecases.ListItemUseCase
 	ItemDetailUsc usecases.ItemDetailUseCase
 	APIHNService  services.HNAPIClient
+	PubSub        pubsub.PublisherBus
 }
 
 func NewBatchProcessTopStories(
@@ -32,15 +37,6 @@ func NewBatchProcessTopStories(
 }
 
 func (batchProcess *batchProcessingTopStories) ProcessItemList() error {
-	err := batchProcess.processUpdateListStories()
-	if err != nil {
-		return err
-	}
-	return err
-}
-
-// processUpdateListStories: up-to-date list of newest top-stories from api-hn first
-func (batchProcess *batchProcessingTopStories) processUpdateListStories() error {
 	var paramsTopStories = map[string]interface{}{
 		"print": "pretty",
 	}
@@ -74,11 +70,21 @@ func (batchProcess *batchProcessingTopStories) ProcessUpdateHNItems() error {
 	return nil
 }
 
+func (batchProcess *batchProcessingTopStories) RunBatchProcess() error {
+	err := batchProcess.ProcessItemList()
+	if err != nil {
+		return err
+	}
+	return batchProcess.ProcessUpdateHNItems()
+}
+
 func (batchProcess *batchProcessingTopStories) processSingleItemUpdate(itemId uint) error {
 	item, err := batchProcess.APIHNService.GetItemDetailById(common.HTTPGet, int(itemId))
 	if err != nil {
 		return err
 	}
-	itemEntity := model.MapperSingleItemEntity(*item)
-	return batchProcess.ItemDetailUsc.UpdateDetailTopStory(itemEntity)
+	return batchProcess.PubSub.Publisher(
+		context.Background(),
+		eventItem.MapperItemToPubsubItem(*item),
+	)
 }
