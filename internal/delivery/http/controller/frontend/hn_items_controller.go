@@ -14,6 +14,7 @@ import (
 type HNItemsController struct {
 	APIHNService services.HNAPIClient
 	ListItemUsc  usecases.ListItemUseCase
+	ItemDetail   usecases.ItemDetailUseCase
 }
 
 func NewListTopStoriesController(

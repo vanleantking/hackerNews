@@ -1,11 +1,11 @@
 package postgre
 
 import (
-	"hackerNewsApi/pkg/logger"
 	"hackerNewsApi/internal/domains/entity"
 	"hackerNewsApi/internal/domains/usecases"
 	"hackerNewsApi/internal/infrastructure/repository"
 	"hackerNewsApi/internal/infrastructure/service/hn_api/common"
+	"hackerNewsApi/pkg/logger"
 
 	"gorm.io/gorm"
 )

@@ -1,10 +1,12 @@
 package postgre
 
 import (
-	"hackerNewsApi/pkg/logger"
+	"fmt"
 	"hackerNewsApi/internal/domains/entity"
 	"hackerNewsApi/internal/domains/usecases"
+	"hackerNewsApi/internal/infrastructure/constants"
 	"hackerNewsApi/internal/infrastructure/repository"
+	"hackerNewsApi/pkg/logger"
 	"time"
 
 	"gorm.io/gorm"
@@ -46,4 +48,18 @@ func (listItems *listItemRepository) UpsertBulkItems(items []entity.Item) error 
 			"updated_at"}),
 	}).Create(&items)
 	return tx.Error
+}
+
+func (listItems *listItemRepository) FindItemListUpdate(conditions map[string]interface{}) ([]entity.Item, error) {
+	var items []entity.Item
+	db := listItems.DB.Select("id", "hn_item_id", "item_url")
+	for key, val := range conditions {
+		prepareQuery := fmt.Sprintf("%s=?", key)
+		db = db.Where(prepareQuery, val)
+	}
+	tx := db.Limit(constants.LIMIT).Find(&items)
+	if tx.Error != nil {
+		return items, tx.Error
+	}
+	return items, nil
 }

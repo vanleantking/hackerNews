@@ -4,8 +4,12 @@ import (
 	"hackerNewsApi/internal/delivery/http/controller/frontend"
 	"hackerNewsApi/internal/infrastructure/repository/postgre"
 	service "hackerNewsApi/internal/infrastructure/service/hn_api"
-	"hackerNewsApi/internal/usecase"
+	"hackerNewsApi/internal/infrastructure/usecase"
 	"hackerNewsApi/pkg/request"
+)
+
+const (
+	HNAPIGroup = "hn-api"
 )
 
 func (routeConfig *RouteConfig) HNAPIRouter() {
@@ -20,7 +24,7 @@ func (routeConfig *RouteConfig) HNAPIRouter() {
 	itemRepo := postgre.NewListItemRepository(&routeConfig.Logger, routeConfig.DB.GetDb())
 	listItemUsc := usecase.NewListItemUsercase(itemRepo)
 	hnListItemController := frontend.NewListTopStoriesController(hnApiService, listItemUsc)
-	hnAPIRouter := routeConfig.APIVersion.Group("hn-api")
+	hnAPIRouter := routeConfig.APIVersion.Group(HNAPIGroup)
 	hnAPIRouter.POST("/top-stories", hnListItemController.ListTopStories)
 
 	// get item detail hacker news endpoint api
