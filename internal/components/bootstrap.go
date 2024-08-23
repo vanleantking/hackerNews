@@ -1,11 +1,11 @@
 package components
 
 import (
-	"hackerNewsApi/internal/components/config"
-	"hackerNewsApi/internal/components/gorm"
-	"hackerNewsApi/internal/components/logger"
-	"hackerNewsApi/internal/components/server"
-	"hackerNewsApi/internal/components/validator"
+	"hackerNewsApi/pkg/config"
+	"hackerNewsApi/pkg/gorm"
+	"hackerNewsApi/pkg/logger"
+	"hackerNewsApi/pkg/server"
+	"hackerNewsApi/pkg/validator"
 )
 
 type App struct {

@@ -3,22 +3,22 @@ package frontend
 import (
 	"hackerNewsApi/internal/delivery/http/httpstatus"
 	"hackerNewsApi/internal/delivery/http/params"
-	hnAPIService "hackerNewsApi/internal/service/hn_api"
-	"hackerNewsApi/internal/service/hn_api/model"
-	"hackerNewsApi/internal/usecase"
+	"hackerNewsApi/internal/domains/services"
+	"hackerNewsApi/internal/domains/usecases"
+	"hackerNewsApi/internal/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type HNItemDetailController struct {
-	APIHNService  hnAPIService.HNAPIClient
-	ItemDetailUsc usecase.ItemDetailUseCase
+	APIHNService  services.HNAPIClient
+	ItemDetailUsc usecases.ItemDetailUseCase
 }
 
 func NewItemDetailController(
-	apiService hnAPIService.HNAPIClient,
-	itemDetailUsc usecase.ItemDetailUseCase,
+	apiService services.HNAPIClient,
+	itemDetailUsc usecases.ItemDetailUseCase,
 ) *HNItemDetailController {
 	return &HNItemDetailController{
 		APIHNService:  apiService,

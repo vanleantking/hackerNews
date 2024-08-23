@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"hackerNewsApi/internal/components/config"
-	"hackerNewsApi/internal/components/gorm"
-	"hackerNewsApi/internal/components/logger"
-	"hackerNewsApi/internal/components/migrator"
+	"hackerNewsApi/pkg/config"
+	"hackerNewsApi/pkg/gorm"
+	"hackerNewsApi/pkg/logger"
+	"hackerNewsApi/pkg/migrator"
 )
 
 var (
