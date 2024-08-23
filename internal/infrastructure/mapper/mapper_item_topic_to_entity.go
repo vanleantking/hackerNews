@@ -2,11 +2,13 @@ package mapper
 
 import (
 	"hackerNewsApi/internal/domains/entity"
-	"hackerNewsApi/internal/infrastructure/pubsub/item"
+	"hackerNewsApi/internal/model/item"
 )
 
 func MapperItemTopicEntity(itemTopic item.PubsubHNItemDetail) entity.Item {
 	return entity.Item{
+		HNItemID:    itemTopic.HNID,
+		Text:        itemTopic.ItemText,
 		Score:       itemTopic.Score,
 		By:          itemTopic.By,
 		Title:       itemTopic.ItemType,

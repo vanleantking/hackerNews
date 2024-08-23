@@ -16,17 +16,9 @@ type Item struct {
 	ItemTitle   string          `json:"title"`
 	ItemType    string          `json:"type"`
 	ItemURL     string          `json:"url"`
-	ItemDelete  *bool           `json:"deleted"`
+	ItemDelete  bool            `json:"deleted,omitempty"`
 	DescenDants uint            `json:"descendants"`
 	Kids        json.RawMessage `json:"kids"`
-}
-
-func (item *Item) MapperItemDeleted() bool {
-	isFalse := false
-	if item.ItemDelete == nil {
-		item.ItemDelete = &isFalse
-	}
-	return *item.ItemDelete
 }
 
 type HNItems struct {
@@ -96,7 +88,7 @@ func MapperSingleItemEntity(item Item) entity.Item {
 		CreatedTime: int64(item.ItemTime),
 		UpdatedAt:   currentTime.Unix(),
 		CreatedAt:   currentTime.Unix(),
-		ItemDeleted: item.MapperItemDeleted(),
+		ItemDeleted: item.ItemDelete,
 		ItemStatus:  common.ITEM_STATUS_NEW,
 	}
 	return itemEntity

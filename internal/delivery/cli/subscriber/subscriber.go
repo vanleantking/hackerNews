@@ -1,16 +1,29 @@
 package subscriber
 
 import (
+	"context"
+	"fmt"
 	"hackerNewsApi/internal/domains/pubsub"
-	"hackerNewsApi/internal/domains/usecases"
-	event "hackerNewsApi/internal/infrastructure/pubsub"
 )
 
 type subscribeProcessing struct {
-	ItemDetailUsc usecases.ItemDetailUseCase
-	PubSub        pubsub.SubsriberBus
+	Subscribe pubsub.RedisSubscribe
 }
 
 type SubscribeProcessing interface {
-	ProcessSubscribeHandlers() func(event.PubSubEvent) error
+	Subscribes(ctx context.Context, handers map[string]pubsub.HandlerFunc) error
+}
+
+func NewSubscriberHandler(sub pubsub.RedisSubscribe) SubscribeProcessing {
+	return &subscribeProcessing{
+		Subscribe: sub,
+	}
+}
+
+func (subscriberHdl *subscribeProcessing) Subscribes(
+	ctx context.Context,
+	handers map[string]pubsub.HandlerFunc,
+) error {
+	fmt.Println("enter Subscribes, ")
+	return subscriberHdl.Subscribe.Subscribes(ctx, handers)
 }

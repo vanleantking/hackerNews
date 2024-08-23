@@ -2,9 +2,8 @@ package pubsub
 
 import (
 	"context"
-	"hackerNewsApi/internal/infrastructure/pubsub"
 )
 
-type PublisherBus interface {
-	Publisher(ctx context.Context, event pubsub.PubSubEvent) error
+type RedisPublish interface {
+	Publish(ctx context.Context, topic string, data []byte) error
 }

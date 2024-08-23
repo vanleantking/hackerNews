@@ -26,7 +26,7 @@ type goCron struct {
 	cron gocron.Scheduler
 }
 
-func NewGoCron(id, loc string) (GoCron, error) {
+func NewGoCron(loc string) (GoCron, error) {
 	if loc == "" {
 		loc = defaultLocationGoCron
 	}

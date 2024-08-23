@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"hackerNewsApi/internal/domains/entity"
 	"hackerNewsApi/internal/domains/usecases"
-	"hackerNewsApi/internal/infrastructure/constants"
 	"hackerNewsApi/internal/infrastructure/repository"
+	"hackerNewsApi/internal/model"
 	"hackerNewsApi/pkg/logger"
 	"time"
 
@@ -50,14 +50,21 @@ func (listItems *listItemRepository) UpsertBulkItems(items []entity.Item) error 
 	return tx.Error
 }
 
-func (listItems *listItemRepository) FindItemListUpdate(conditions map[string]interface{}) ([]entity.Item, error) {
+func (listItems *listItemRepository) FindItemListUpdate(
+	conditions map[string]interface{},
+	paginate *model.Pagination,
+) ([]entity.Item, error) {
+	paginate.Offset = (paginate.CurrentPage - 1) * paginate.PageSize
 	var items []entity.Item
 	db := listItems.DB.Select("id", "hn_item_id", "item_url")
 	for key, val := range conditions {
 		prepareQuery := fmt.Sprintf("%s=?", key)
 		db = db.Where(prepareQuery, val)
 	}
-	tx := db.Limit(constants.LIMIT).Find(&items)
+	tx := db.Limit(paginate.PageSize).
+		Order(paginate.OrderBy).
+		Offset(paginate.Offset).
+		Find(&items)
 	if tx.Error != nil {
 		return items, tx.Error
 	}

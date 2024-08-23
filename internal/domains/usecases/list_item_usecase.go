@@ -8,7 +8,7 @@ import (
 type ListItemRepository interface {
 	UpsertListItems(items []entity.Item) []error
 	UpsertBulkItems(items []entity.Item) error
-	FindItemListUpdate(conditions map[string]interface{}) ([]entity.Item, error)
+	FindItemListUpdate(conditions map[string]interface{}, paginate *model.Pagination) ([]entity.Item, error)
 }
 
 type ListItemUseCase interface {

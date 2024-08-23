@@ -2,66 +2,46 @@ package pubsub
 
 import (
 	"context"
-	"encoding/json"
+	"fmt"
+	"hackerNewsApi/internal/domains/pubsub"
 	"hackerNewsApi/pkg/redis"
-	"log"
 	"sync"
 )
 
-type redisPubsubClient struct {
-	pubsubClient redis.RedisClient
+type redisPubSubClient struct {
+	pubSubClient redis.RedisClient
 }
 
-type PubSubClient interface {
-}
-
-func NewRedisClient(redisClient redis.RedisClient) (PubSubClient, error) {
-	return &redisPubsubClient{
-		pubsubClient: redisClient,
-	}, nil
-}
-
-func (bus *redisPubsubClient) Publish(ctx context.Context, event PubSubEvent) error {
-	data, err := json.Marshal(event)
-	if err != nil {
-		return err
+func NewRedisClient(redisClient redis.RedisClient) (pubsub.RedisPublish, pubsub.RedisSubscribe) {
+	r := &redisPubSubClient{
+		pubSubClient: redisClient,
 	}
+	return r, r
+}
 
-	return bus.pubsubClient.
+func (bus *redisPubSubClient) Publish(ctx context.Context, topic string, data []byte) error {
+	fmt.Println("Published, ", topic, string(data))
+	return bus.pubSubClient.
 		GetClient().
-		Publish(ctx, event.GetTopicName(), data).
+		Publish(ctx, topic, data).
 		Err()
 }
 
-func (bus *redisPubsubClient) Subscribe(
-	ctx context.Context,
-	topic string, handler func(PubSubEvent) error,
+func (bus *redisPubSubClient) Subscribe(ctx context.Context, topic string, handler func(data []byte) error,
 ) error {
-	pubsub := bus.pubsubClient.GetClient().Subscribe(ctx, topic)
+	pubsub := bus.pubSubClient.GetClient().Subscribe(ctx, topic)
 	defer pubsub.Close()
 
 	ch := pubsub.Channel()
 	for msg := range ch {
-		var event PubSubEvent
-		if err := json.Unmarshal([]byte(msg.Payload), &event); err != nil {
-			log.Println("Error unmarshalling event:", err)
-			continue
-		}
-
-		if err := handler(event); err != nil {
+		if err := handler([]byte(msg.Payload)); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-/**
- * Subcripbe for list
- * map[topic]handler : handler func(data PubSubEvent) error
- */
-type HandlerFunc func(data PubSubEvent) error
-
-func (r *redisPubsubClient) Subscribes(ctx context.Context, handers map[string]HandlerFunc) error {
+func (r *redisPubSubClient) Subscribes(ctx context.Context, handers map[string]pubsub.HandlerFunc) error {
 	var wg sync.WaitGroup
 
 	for topic, handler := range handers {
@@ -73,10 +53,10 @@ func (r *redisPubsubClient) Subscribes(ctx context.Context, handers map[string]H
 	return nil
 }
 
-func (r *redisPubsubClient) subscribeToTopic(
+func (r *redisPubSubClient) subscribeToTopic(
 	ctx context.Context,
 	topic string,
-	handler HandlerFunc,
+	handler pubsub.HandlerFunc,
 	wg *sync.WaitGroup,
 ) {
 	defer wg.Done()

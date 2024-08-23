@@ -25,6 +25,9 @@
 24. https://vidhyanshu.medium.com/implementing-clean-architecture-in-go-56aca59311b3
 25. https://www.reddit.com/r/golang/comments/1bzg8gi/what_architecture_has_been_the_best_for_you/
 26. https://github.com/herryg91/go-clean-architecture
+27. https://www.jamesmichaelhickey.com/domain-driven-design-aggregates/
+28. https://www.plainionist.net/Implementing-Clean-Architecture-UseCases/
+29. https://www.reddit.com/r/golang/comments/10020js/domaindriven_design_framework_for_go_developers/
 
 
 **PROJECT ARCHITECTURE**

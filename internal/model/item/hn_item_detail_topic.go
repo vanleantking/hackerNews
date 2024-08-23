@@ -8,6 +8,7 @@ import (
 )
 
 type PubsubHNItemDetail struct {
+	TopicName   string          `json:"topic_name"`
 	ID          uint            `json:"id"`
 	HNID        uint            `json:"hn_item_id"`
 	Score       int             `json:"item_score"`
@@ -24,12 +25,13 @@ type PubsubHNItemDetail struct {
 }
 
 func (e PubsubHNItemDetail) GetTopicName() string {
-	return common.PB_EVENT_HN_ITEM_DETAIL
+	return e.TopicName
 }
 
-func MapperItemToPubsubItem(item model.Item) *PubsubHNItemDetail {
+func MapperItemToPubsubItem(item *model.Item) *PubsubHNItemDetail {
 	currentTime := time.Now()
 	return &PubsubHNItemDetail{
+		TopicName:   common.PB_EVENT_HN_ITEM_DETAIL,
 		HNID:        item.ItemID,
 		ItemStatus:  common.ITEM_STATUS_PROCESS_TITLE,
 		By:          item.ItemBy,
@@ -38,9 +40,13 @@ func MapperItemToPubsubItem(item model.Item) *PubsubHNItemDetail {
 		Title:       item.ItemTitle,
 		ItemType:    item.ItemType,
 		URL:         item.ItemURL,
-		ItemDeleted: *item.ItemDelete,
 		DescenDants: int(item.DescenDants),
 		Kids:        item.Kids,
 		UpdatedAt:   currentTime.Unix(),
+		ItemDeleted: item.ItemDelete,
 	}
+}
+
+func (item *PubsubHNItemDetail) BytePresenter() ([]byte, error) {
+	return json.Marshal(item)
 }
