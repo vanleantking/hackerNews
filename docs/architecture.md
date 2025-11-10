@@ -47,6 +47,33 @@
         ---- storage
         ---- usecase
     -- pkg
+
+- backend
+    -- cmd
+        ---- api                   # Main API entry point
+        ---- migrations            # Database migrations entry point
+    -- db                          # Database migrations, seeds, and scripts
+    -- docker                      # Docker configurations (API, PostgreSQL, etc.)
+    -- docs                        # Documentation for the project
+    -- internal
+        ---- domain                 # Core business logic (DDD principles)
+             ---- entity             # Business entities (e.g., User, Order)
+             ---- service            # Domain services (complex business rules)
+             ---- factory            # Factories for creating domain objects
+             ---- event              # Domain events (e.g., OrderCreatedEvent)
+        ---- delivery               # Interface Adapters
+             ---- http               # HTTP handlers (REST API)
+             ---- grpc               # gRPC handlers (if needed)
+             ---- cli                # Command-line interface handlers
+        ---- repository             # Data access layer (implements interfaces)
+             ---- postgresql         # PostgreSQL repository implementation
+             ---- mongodb            # MongoDB repository (if applicable)
+             ---- cache              # Redis or in-memory caching
+        ---- storage                # File storage (S3, local, etc.)
+        ---- usecase                # Application layer (business logic orchestration)
+        ---- components              # External libraries & integrations
+    -- pkg                          # Shared utility functions & helpers
+    -- config                       # Configuration files (env, yaml, etc.)
 - `cmd`: expose application into runable format =>
     + expose `api` into `main` package for run api instance
     + expose `migrate` on `migrations` for construct database hierachy
