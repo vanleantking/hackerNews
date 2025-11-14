@@ -28,6 +28,8 @@
 27. https://www.jamesmichaelhickey.com/domain-driven-design-aggregates/
 28. https://www.plainionist.net/Implementing-Clean-Architecture-UseCases/
 29. https://www.reddit.com/r/golang/comments/10020js/domaindriven_design_framework_for_go_developers/
+30. https://englyk.com/book2/
+31. https://www.alexedwards.net/blog/11-tips-for-structuring-your-go-projects
 
 
 **PROJECT ARCHITECTURE**
